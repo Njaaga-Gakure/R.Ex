@@ -62,15 +62,18 @@ const Wrapper = styled.div`
   }
 
   .hero__tagline {
+    padding: 0.25em 1rem;
+    border-radius: 50px;
+    background: var(--white);
     letter-spacing: var(--letter-spacing);
     white-space: nowrap;
     text-transform: capitalize;
-    color: var(--white);
+    color: var(--primary-500);
     span {
       display: inline-block;
       width: 10px;
       height: 10px;
-      background-color: var(--white);
+      background-color: var(--primary-500);
       border-radius: 50%;
     }
   }
