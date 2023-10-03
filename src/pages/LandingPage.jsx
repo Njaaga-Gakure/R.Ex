@@ -54,8 +54,7 @@ const Wrapper = styled.div`
     place-items: center;
   }
   .hero__body {
-    border: 1px solid var(--white);
-    padding: 4rem 2rem;
+    padding: 2rem 1rem;
   }
   .logo {
     margin: 0 auto 1rem;
@@ -87,8 +86,6 @@ const Wrapper = styled.div`
     letter-spacing: var(--letter-spacing);
     text-transform: capitalize;
     color: var(--primary-500);
-    /* text-decoration: underline;
-    text-underline-offset: 10px; */
   }
 
   .text_small {
