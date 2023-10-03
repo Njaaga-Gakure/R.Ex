@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import landingImg from "../assets/landing-page.jpg";
 import logo from "../assets/logo.png";
 import { FormRow } from "../components";
 import { useState } from "react";
@@ -8,34 +7,31 @@ const LandingPage = () => {
   const [isMember, setIsMember] = useState(false);
   return (
     <Wrapper>
-      <div className="img__container">
-        <img className="landing__img" src={landingImg} alt="" />
-      </div>
-      <div className="form__container">
-        <div className="header">
+      <div className="hero">
+        <div className="hero__body">
           <img src={logo} alt="" className="logo" />
-          <p className="header__tagline">
+          <p className="hero__tagline">
             patience <span></span> frugality <span></span> sacrifice
           </p>
         </div>
-        <form className="form">
-          <h5 className="form__title">{isMember ? "login" : "sign up"}</h5>
-          {!isMember && <FormRow label="name" type="text" />}
-          <FormRow label="email" type="text" />
-          <FormRow label="password" type="password" />
-          <button className="btn">{isMember ? "login" : "sign up"}</button>
-          <p className="text_small">
-            {isMember ? "Not a member yet?" : " Already a member?"}
-            <button
-              onClick={() => setIsMember(!isMember)}
-              type="button"
-              className="member-btn"
-            >
-              {isMember ? "register" : "login"}
-            </button>
-          </p>
-        </form>
       </div>
+      <form className="form">
+        <h5 className="form__title">{isMember ? "login" : "sign up"}</h5>
+        {!isMember && <FormRow label="name" type="text" />}
+        <FormRow label="email" type="text" />
+        <FormRow label="password" type="password" />
+        <button className="btn">{isMember ? "login" : "sign up"}</button>
+        <p className="text_small">
+          {isMember ? "Not a member yet?" : " Already a member?"}
+          <button
+            onClick={() => setIsMember(!isMember)}
+            type="button"
+            className="member-btn"
+          >
+            {isMember ? "register" : "login"}
+          </button>
+        </p>
+      </form>
     </Wrapper>
   );
 };
@@ -43,37 +39,30 @@ const LandingPage = () => {
 const Wrapper = styled.div`
   position: relative;
   min-height: 100vh;
-  .img__container {
-    position: relative;
-    height: 100vh;
-    /* border: 1px solid magenta; */
-  }
-  .img__container::before {
-    position: absolute;
-    content: "";
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-  }
-  .landing__img {
-    height: 100%;
-    object-position: left;
-  }
-  .header {
-    position: absolute;
+  .hero {
+    background-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.9),
+        rgba(0, 0, 0, 0.7)
+      ),
+      url("/hero-bg.jpg");
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     display: grid;
-    gap: 1rem;
-    top: 17rem;
-    left: 50%;
-    transform: translateX(-50%);
+    place-items: center;
+  }
+  .hero__body {
+    border: 1px solid var(--white);
+    padding: 4rem 2rem;
   }
   .logo {
-    margin: 0 auto;
+    margin: 0 auto 1rem;
     width: 200px;
   }
-  .header__tagline {
+
+  .hero__tagline {
     letter-spacing: var(--letter-spacing);
     white-space: nowrap;
     text-transform: capitalize;
@@ -86,10 +75,9 @@ const Wrapper = styled.div`
       border-radius: 50%;
     }
   }
-  .form__container {
-    padding: 4rem 2rem;
-  }
+
   .form {
+    padding: 2rem;
     display: grid;
     gap: 2rem;
   }
@@ -98,8 +86,9 @@ const Wrapper = styled.div`
     text-align: center;
     letter-spacing: var(--letter-spacing);
     text-transform: capitalize;
-    text-decoration: underline;
-    text-underline-offset: 10px;
+    color: var(--primary-500);
+    /* text-decoration: underline;
+    text-underline-offset: 10px; */
   }
 
   .text_small {
@@ -115,24 +104,16 @@ const Wrapper = styled.div`
   }
   @media (min-width: 900px) {
     display: grid;
-    gap: 5rem;
-    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    grid-template-columns: 1.5fr 1fr;
     align-items: center;
-    .form__container {
-      padding: 2rem;
+    .form {
+      padding: 4rem;
+      padding-left: 0;
     }
-    /* .img__container::before {
-      background-color: rgba(0, 0, 0, 0);
-    } */
-    .header {
+
+    .hero__body {
       text-align: center;
-      /* position: static; */
-      padding: 2rem;
-      margin-bottom: 5rem;
-      /* background-color: var(--primary-400); */
-      border-radius: 2px;
-      transform: translateX(0) translateY(-3rem);
-      left: 10%;
     }
   }
 `;

@@ -28,7 +28,6 @@ const FormRow = ({ label, type }) => {
   );
 };
 const Wrapper = styled.div`
-  /* border: 1px solid black; */
   position: relative;
 
   .form__label {
@@ -41,6 +40,9 @@ const Wrapper = styled.div`
     text-transform: capitalize;
     color: var(--primary-500);
     transition: 0.6s;
+    span {
+      font-size: 0.8rem;
+    }
   }
   .form__input {
     position: relative;
@@ -56,6 +58,7 @@ const Wrapper = styled.div`
 
   .form__input:focus ~ .form__label {
     bottom: 1.75rem;
+    font-size: 0.9rem;
     span {
       display: none;
     }
