@@ -76,7 +76,7 @@ const Wrapper = styled.div`
   }
 
   .form {
-    padding: 2rem;
+    padding: 5rem 2rem;
     display: grid;
     gap: 2rem;
   }
