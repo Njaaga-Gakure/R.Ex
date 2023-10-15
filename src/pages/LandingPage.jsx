@@ -1,10 +1,60 @@
 import styled from "styled-components";
 import logo from "../assets/logo.png";
-import { FormRow } from "../components";
-import { useState } from "react";
+import { FormRow, Spinner } from "../components";
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useUserContext } from "../contexts/UserProvider";
+import { FaUserAlt } from "react-icons/fa";
+import { SiMinutemailer } from "react-icons/si";
+import { BiSolidLock } from "react-icons/bi";
 
+const initialState = {
+  name: "",
+  email: "",
+  password: "",
+  isMember: true,
+};
 const LandingPage = () => {
-  const [isMember, setIsMember] = useState(false);
+  const [state, setState] = useState(initialState);
+  const { isMember, name, email, password } = state;
+  const { user, isLoading, login, register } = useUserContext();
+  const navigate = useNavigate();
+
+  // toggle between login and register
+  const toggleMember = () => {
+    setState((preState) => {
+      return { ...preState, isMember: !preState.isMember };
+    });
+  };
+
+  // control the inputs
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setState((prevState) => {
+      return { ...prevState, [name]: value };
+    });
+  };
+
+  // handle registration and login
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!email || !password || (!isMember && !name)) return;
+
+    // check if the user is trying to login or registering as a new user
+    if (isMember) {
+      login({ email, password });
+      return;
+    }
+    register({ name, email, password });
+  };
+
+  useEffect(() => {
+    if (user) {
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+    }
+  }, [user]);
   return (
     <Wrapper>
       <div className="hero">
@@ -15,19 +65,40 @@ const LandingPage = () => {
           </p>
         </div>
       </div>
-      <form className="form">
+      <form className="form" onSubmit={handleSubmit}>
         <h5 className="form__title">{isMember ? "login" : "sign up"}</h5>
-        {!isMember && <FormRow label="name" type="text" />}
-        <FormRow label="email" type="text" />
-        <FormRow label="password" type="password" />
-        <button className="btn">{isMember ? "login" : "sign up"}</button>
+        {!isMember && (
+          <FormRow
+            labelName="name"
+            icon={<FaUserAlt />}
+            name="name"
+            type="text"
+            handleChange={handleChange}
+            value={name}
+          />
+        )}
+        <FormRow
+          labelName="email"
+          icon={<SiMinutemailer />}
+          name="email"
+          type="text"
+          handleChange={handleChange}
+          value={email}
+        />
+        <FormRow
+          labelName="password"
+          icon={<BiSolidLock />}
+          name="password"
+          type="password"
+          handleChange={handleChange}
+          value={password}
+        />
+        <button disabled={isLoading} className="btn">
+          {isLoading ? <Spinner /> : isMember ? "login" : "sign up"}
+        </button>
         <p className="text_small">
           {isMember ? "Not a member yet?" : " Already a member?"}
-          <button
-            onClick={() => setIsMember(!isMember)}
-            type="button"
-            className="member-btn"
-          >
+          <button onClick={toggleMember} type="button" className="member-btn">
             {isMember ? "register" : "login"}
           </button>
         </p>
@@ -90,7 +161,10 @@ const Wrapper = styled.div`
     text-transform: capitalize;
     color: var(--primary-500);
   }
-
+  .btn {
+    display: flex;
+    justify-content: center;
+  }
   .text_small {
     text-align: center;
     letter-spacing: var(--letter-spacing);

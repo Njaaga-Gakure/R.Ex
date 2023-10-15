@@ -1,28 +1,21 @@
 import React from "react";
 import styled from "styled-components";
-import { FaUserAlt } from "react-icons/fa";
-import { SiMinutemailer } from "react-icons/si";
-import { BiSolidLock } from "react-icons/bi";
 
-const FormRow = ({ label, type }) => {
+const FormRow = ({ name, type, value, handleChange, labelName, icon }) => {
   return (
     <Wrapper className="form__row">
       <input
         type={type}
-        name={label}
-        id={label}
+        name={name}
+        id={name}
+        value={value}
+        onChange={handleChange}
         className="form__input"
         required
       />
-      <label className="form__label" htmlFor={label}>
-        {label === "name" ? (
-          <FaUserAlt />
-        ) : label === "email" ? (
-          <SiMinutemailer />
-        ) : (
-          <BiSolidLock />
-        )}{" "}
-        <span>{label}</span>
+      <label className="form__label" htmlFor={name}>
+        {icon}
+        {labelName}
       </label>
     </Wrapper>
   );
@@ -54,6 +47,7 @@ const Wrapper = styled.div`
     padding: 0.5rem 1rem;
     border-bottom: 1px solid var(--primary-500);
     outline: none;
+    letter-spacing: 1px;
   }
 
   .form__input:focus ~ .form__label {

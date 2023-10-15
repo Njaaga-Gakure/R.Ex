@@ -26,8 +26,11 @@ html {
   --light-grayish-blue: hsl(223, 64%, 98%);
 
   /* ============== Other Variables ============= */
-  --transition: all 0.5s ease-in-out;
+  --transition: all 0.3s ease-in-out;
   --letter-spacing: 2px;
+  --shadow-1: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  --shadow-2: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  --shadow-3: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 *,
@@ -116,4 +119,7 @@ button {
 .btn:hover {
   background-color: var(--primary-500);
   color: var(--white);
+}
+.Toastify__toast {
+  text-transform: capitalize;
 }
