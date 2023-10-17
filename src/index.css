@@ -108,18 +108,23 @@ button {
 
 .btn {
   padding: 0.75rem 1rem;
-  background: transparent;
-  color: var(--primary-500);
+  background: var(--primary-500);
+  color: var(--white);
   letter-spacing: var(--letter-spacing);
   text-transform: capitalize;
   border-radius: 5px;
-  border: 1px solid var(--primary-500);
+  border: none;
   transition: var(--transition);
 }
 .btn:hover {
-  background-color: var(--primary-500);
-  color: var(--white);
+  background-color: var(--primary-400);
 }
 .Toastify__toast {
   text-transform: capitalize;
+}
+
+.content--center {
+  width: 90vw;
+  max-width: 900px;
+  margin: 0 auto;
 }

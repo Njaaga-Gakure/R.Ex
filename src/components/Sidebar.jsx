@@ -2,10 +2,8 @@ import styled from "styled-components";
 import logo from "../assets/sidebar-logo.png";
 import { LiaTimesSolid } from "react-icons/lia";
 import { FiLogOut } from "react-icons/fi";
-import { AiOutlineAppstoreAdd } from "react-icons/ai";
-import { HiOutlineDocumentReport } from "react-icons/hi";
-import { FaUserSecret } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
+import { navLinks } from "../utils/data";
 import { useUserContext } from "../contexts/UserProvider";
 
 const Sidebar = () => {
@@ -13,68 +11,43 @@ const Sidebar = () => {
   return (
     <Wrapper>
       <div className={isSidebarOpen ? "sidebar sidebar--open" : "sidebar "}>
-        <div className="sidebar__header">
-          <div className="logo__container">
-            <img src={logo} alt="Re.Ex" className="sidebar__logo" />
-            {/* <p className="logo__desc">patience frugality sacrifice</p> */}
+        <div className="content">
+          <div className="sidebar__header">
+            <div className="logo__container">
+              <img src={logo} alt="Re.Ex" className="sidebar__logo" />
+              {/* <p className="logo__desc">patience frugality sacrifice</p> */}
+            </div>
+            <button onClick={closeSidebar} className="close__btn">
+              <LiaTimesSolid />
+            </button>
           </div>
-          <button onClick={closeSidebar} className="close__btn">
-            <LiaTimesSolid />
+          <ul className="sidebar__links">
+            {navLinks.map(({ id, path, icon, text }) => {
+              return (
+                <li
+                  key={id}
+                  onClick={() => {
+                    closeSidebar();
+                    closeModal();
+                  }}
+                >
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive ? "sidebar__link link--active" : "sidebar__link"
+                    }
+                    to={path}
+                  >
+                    {icon}
+                    <span>{text}</span>
+                  </NavLink>
+                </li>
+              );
+            })}
+          </ul>
+          <button onClick={logout} className="logout__btn">
+            <FiLogOut /> <span>logout</span>
           </button>
         </div>
-        <ul className="sidebar__links">
-          <li
-            onClick={() => {
-              closeSidebar();
-              closeModal();
-            }}
-          >
-            <NavLink
-              className={({ isActive }) =>
-                isActive ? "sidebar__link link--active" : "sidebar__link"
-              }
-              to="/"
-            >
-              <HiOutlineDocumentReport />
-              <span>all entries</span>
-            </NavLink>
-          </li>
-          <li
-            onClick={() => {
-              closeSidebar();
-              closeModal();
-            }}
-          >
-            <NavLink
-              className={({ isActive }) =>
-                isActive ? "sidebar__link link--active" : "sidebar__link"
-              }
-              to="/add-entry"
-            >
-              <AiOutlineAppstoreAdd />
-              <span>add entry</span>
-            </NavLink>
-          </li>
-          <li
-            onClick={() => {
-              closeSidebar();
-              closeModal();
-            }}
-          >
-            <NavLink
-              className={({ isActive }) =>
-                isActive ? "sidebar__link link--active" : "sidebar__link"
-              }
-              to="/profile"
-            >
-              <FaUserSecret />
-              <span>profile</span>
-            </NavLink>
-          </li>
-        </ul>
-        <button onClick={logout} className="logout__btn">
-          <FiLogOut /> <span>logout</span>
-        </button>
       </div>
     </Wrapper>
   );
@@ -151,56 +124,7 @@ const Wrapper = styled.aside`
     color: var(--primary-500);
   }
   @media (min-width: 800px) {
-    .sidebar {
-      position: static;
-      width: auto;
-      transform: translateX(0);
-      box-shadow: none;
-    }
-    .sidebar__logo {
-      width: 70px;
-    }
-    .close__btn {
-      display: none;
-    }
-    .sidebar__link {
-      svg {
-        font-size: 1.75rem;
-      }
-      span {
-        display: none;
-      }
-    }
-    .logout__btn {
-      svg {
-        font-size: 1.5rem;
-      }
-      span {
-        display: none;
-      }
-    }
-  }
-  @media (min-width: 1000px) {
-    .sidebar__logo {
-      width: 75px;
-    }
-
-    .sidebar__link {
-      svg {
-        font-size: 1.5rem;
-      }
-      span {
-        display: inline-block;
-      }
-    }
-    .logout__btn {
-      svg {
-        font-size: 1.5rem;
-      }
-      span {
-        display: inline-block;
-      }
-    }
+    display: none;
   }
 `;
 export default Sidebar;

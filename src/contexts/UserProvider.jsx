@@ -42,8 +42,8 @@ export const UserProvider = ({ children }) => {
   };
 
   const register = async (user) => {
+    dispatch({ type: BEGIN_REGISTER });
     try {
-      dispatch({ type: BEGIN_REGISTER });
       const {
         data: { user: registeredUser },
       } = await customRequest.post("/auth/register", user);
@@ -56,8 +56,8 @@ export const UserProvider = ({ children }) => {
     }
   };
   const login = async (user) => {
+    dispatch({ type: BEGIN_LOGIN });
     try {
-      dispatch({ type: BEGIN_LOGIN });
       const {
         data: { user: loginUser },
       } = await customRequest.post("/auth/login", user);
@@ -76,11 +76,12 @@ export const UserProvider = ({ children }) => {
     dispatch({ type: CLOSE_NAV_MODAL });
   };
   const logout = () => {
+    toast.success("logging out...");
     dispatch({ type: LOGOUT_USER });
   };
   const updateUser = async (user) => {
+    dispatch({ type: BEGIN_UPDATE });
     try {
-      dispatch({ type: BEGIN_UPDATE });
       const { token } = state.user;
       const {
         data: { user: updatedUser },

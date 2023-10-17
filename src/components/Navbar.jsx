@@ -2,65 +2,79 @@ import { FaBars, FaUserTie } from "react-icons/fa";
 import { BsSun, BsMoonStars } from "react-icons/bs";
 import styled from "styled-components";
 import { useUserContext } from "../contexts/UserProvider";
-import { Link, useLocation } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { LiaTimesSolid } from "react-icons/lia";
 import { FiLogOut } from "react-icons/fi";
+import logo from "../assets/sidebar-logo.png";
+import { navLinks } from "../utils/data";
 
 const Navbar = () => {
-  const location = useLocation();
   const { openSidebar, logout, isNavModalOpen, closeModal, toggleModal, user } =
     useUserContext();
-  console.log(location.pathname);
   return (
     <Wrapper className="nav">
-      <div className="nav__header">
-        <button onClick={openSidebar} className="toggle__btn">
-          <FaBars />
-        </button>
-        <h5 className="nav__link--active">
-          dashboard /
-          <span>
-            {" "}
-            {location.pathname === "/"
-              ? "all entries"
-              : location.pathname === "/add-entry"
-              ? "add entry"
-              : "profile"}
-          </span>
-        </h5>
-      </div>
-      <div className="nav__profile">
-        <div className="toggle__dark ">
-          <button className="dark__btn ">
-            <BsSun />
+      <div className="content--center">
+        <div className="nav__header">
+          <button onClick={openSidebar} className="toggle__btn">
+            <FaBars />
           </button>
-          <button className="light__btn btn--active">
-            <BsMoonStars />
+          <img src={logo} alt="Re-Ex" className="nav__logo" />
+        </div>
+        <ul className="nav__links">
+          {navLinks.map(({ id, path, text }) => {
+            return (
+              <li
+                key={id}
+                onClick={() => {
+                  closeSidebar();
+                  closeModal();
+                }}
+              >
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "nav__link link--active" : "nav__link"
+                  }
+                  to={path}
+                >
+                  {text}
+                </NavLink>
+              </li>
+            );
+          })}
+        </ul>
+        <div className="nav__profile">
+          <div className="toggle__dark ">
+            <button className="dark__btn ">
+              <BsSun />
+            </button>
+            <button className="light__btn btn--active">
+              <BsMoonStars />
+            </button>
+          </div>
+          <button onClick={toggleModal} className="profile">
+            <FaUserTie />
           </button>
         </div>
-        <button onClick={toggleModal} className="profile">
-          <FaUserTie />
-        </button>
-      </div>
-      <div
-        className={
-          isNavModalOpen ? "nav__modal nav__modal--show" : "nav__modal"
-        }
-      >
-        <div className="modal__header">
-          <button onClick={closeModal} className="close__btn">
-            <LiaTimesSolid />
+        <div
+          className={
+            isNavModalOpen ? "nav__modal nav__modal--show" : "nav__modal"
+          }
+        >
+          <div className="modal__header">
+            <button onClick={closeModal} className="close__btn">
+              <LiaTimesSolid />
+            </button>
+          </div>
+          <h5 className="user__name">hello, {user.name.split(" ")[0]}</h5>
+          <Link onClick={closeModal} className="modal__link" to="/profile">
+            <FaUserTie />
+            profile
+          </Link>
+          <button onClick={logout} className="logout__btn">
+            <FiLogOut />
+            logout
           </button>
         </div>
-        <h5 className="user__name">hello, {user.name.split(" ")[0]}</h5>
-        <Link onClick={closeModal} className="modal__link" to="/profile">
-          <FaUserTie />
-          profile
-        </Link>
-        <button onClick={logout} className="logout__btn">
-          <FiLogOut />
-          logout
-        </button>
       </div>
     </Wrapper>
   );
@@ -68,17 +82,23 @@ const Navbar = () => {
 
 const Wrapper = styled.nav`
   position: fixed;
-  box-shadow: var(--shadow-1);
-  display: flex;
-  justify-content: space-between;
   background-color: var(--white);
   padding: 1rem;
+  box-shadow: var(--shadow-1);
   top: 0;
   width: 100%;
-  /* z-index: 9999999; */
+  z-index: 999;
+  .content--center {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
   .nav__header {
     display: flex;
     align-items: center;
+  }
+  .nav__logo {
+    display: none;
   }
   .toggle__btn {
     background-color: transparent;
@@ -88,9 +108,7 @@ const Wrapper = styled.nav`
       color: var(--primary-500);
     }
   }
-  .nav__link--active {
-    display: none;
-  }
+
   .toggle__dark {
     background-color: var(--primary-400);
     border-radius: 7px;
@@ -120,6 +138,9 @@ const Wrapper = styled.nav`
     display: flex;
     gap: 1rem;
     align-items: center;
+  }
+  .nav__links {
+    display: none;
   }
   .profile {
     background-color: transparent;
@@ -211,27 +232,23 @@ const Wrapper = styled.nav`
   }
 
   @media (min-width: 800px) {
-    position: relative;
-    box-shadow: none;
     .toggle__btn {
       display: none;
     }
-
-    .nav__link--active {
+    .nav__logo {
       display: block;
-      /* background-color: var(--primary-400); */
-      /* border: 1px solid var(--primary-500); */
-      border-radius: 5px;
-      padding: 0.5rem;
-      color: var(--primary-500);
-      /* color: var(--white); */
-      letter-spacing: 1px;
+      width: 100px;
+    }
+    .nav__links {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      letter-spacing: var(--letter-spacing);
       text-transform: capitalize;
-      font-weight: 400;
-      span {
-        color: var(--primary-300);
-        font-size: 1rem;
-      }
+      color: var(--primary-500);
+    }
+    .link--active {
+      color: #083b72;
     }
   }
 `;

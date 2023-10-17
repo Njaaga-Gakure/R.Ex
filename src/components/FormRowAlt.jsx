@@ -13,7 +13,6 @@ const FormRowAlt = ({ name, type, value, handleChange, labelName }) => {
         value={value}
         onChange={handleChange}
         className="form__input"
-        required
       />
     </Wrapper>
   );
